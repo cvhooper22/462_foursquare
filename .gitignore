@@ -1,3 +1,4 @@
+*.byebug-history
 *.gem
 *.rbc
 *.log

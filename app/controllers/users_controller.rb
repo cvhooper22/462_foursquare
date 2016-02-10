@@ -24,9 +24,13 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
-
+    if auth_hash
+      @user = User.from_omniauth(auth_hash) 
+    else
+      @user = User.new(user_params)
+    end
     respond_to do |format|
+      byebug
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
@@ -70,5 +74,9 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:username)
+    end
+
+    def auth_hash
+      request.env['omniauth.auth']
     end
 end
