@@ -40,7 +40,6 @@ class UsersController < ApplicationController
       session[:current_user] = params[:user][:username]
     end
     respond_to do |format|
-      byebug
       if @user.save
         format.html { redirect_to action: "show", id: @user.username }
         format.json { render :index, status: :created, location: @user }
