@@ -1,13 +1,40 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <h2>
-  	<%= @user.username %>'s Recent Check-ins
-  </h2>
-  <ul>
-  	<li>Place 1</li>
-  	<li>Place 2</li>
-	</ul>
+	<% if @user.is_authorized %> 
+	  <h2>
+	  	<%= @user.first_name %> <%= @user.last_name %>'s Recent Check-ins
+	  </h2>
+	  <% if @checkins && @checkins[:count] > 0 %>
+	  	<h4>Last <%= @checkins[:items].length %> checkin(s):</h4>
+	  	<% @checkins[:items].each do |checkin| %>
+	  		<ul>
+	  			<li><b><%= checkin[:venue][:name] %></b><ul>
+		  			<li><i>Shout: </i><%= checkin[:shout] %></li>
+		  			<li><i>Address: </i><%= checkin[:venue][:location][:formattedAddress][0] %>, <%= checkin[:venue][:location][:formattedAddress][1] %></li>
+		  			<li><i>Checkins: </i><%= checkin[:venue][:stats][:checkinsCount] %></li>
+		  			<li><i>Tips: </i><%= checkin[:venue][:stats][:tipCount] %></li>
+	  			</ul></li>
+	  		</ul>
+	  		<p />
+	  	<% end %>
+	  <% else %>
+	  	This person has no recent checkins.
+	  <% end %>
+	<% elsif @is_current_user %>
+		<h2>
+			<%= @user.username %>, you haven't connected your Foursquare Account yet, that's sad.
+			<p>
+				<%= link_to "Connect now!", "/auth/foursquare" %><br/>
+			</p>
+		</h2>
+		<i>Make sure you're not logged into any Foursquare account or are alread logged into the account you want to associate this username with</i>
+	<% else %>
+		<h2>
+			<%= @user.username %> hasn't connected thier Foursquare Account yet, that's sad.
+		</h2>
+	<% end %>
 </p>
-
+<p>
 <%= link_to 'View All Users', users_path %>
+</p>

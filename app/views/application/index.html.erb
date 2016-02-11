@@ -8,7 +8,11 @@
 </head>
 <body>
 	<h2>O Brother, Square Art Thou?</h2>
-	<h5>Welcome! Sign in with <%= link_to "Foursquare account", "/auth/foursquare" %> to get started</h5>
-	<button>Get Started!</button>
+	<h5>Welcome! Sign in with a registered username to get started or <%= link_to '<button type="button">Sign up</button>'.html_safe, '/signup' %></h5>
+	<%= form_tag("/login", method: "get") do %>
+		<%= label_tag(:username, "Username") %>
+		<%= text_field_tag(:username) %>
+		<%= submit_tag("Login") %>
+	<% end %> 
 </body>
 </html>

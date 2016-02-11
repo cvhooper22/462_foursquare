@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users
+  resources :users, :path => '/users', :only => [:index, :create, :show]
   get 'user/index'
 
   get 'user/show'
@@ -10,7 +10,9 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'application#index'
-
+  get 'login', to: 'application#login'
+  get 'logout', to: 'application#logout'
+  get 'signup', to: 'application#signup'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
